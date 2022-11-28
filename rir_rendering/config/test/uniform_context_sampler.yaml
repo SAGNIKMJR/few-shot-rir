@@ -1,0 +1,54 @@
+BASE_TASK_CONFIG_PATH: "configs/tasks/uniform_context_sampler/test_uniform_context_sampler.yaml"
+SENSORS: ["RGB_SENSOR", "DEPTH_SENSOR"]  
+
+TRAINER_NAME: "uniform_context_sampler"
+
+NUM_PROCESSES: 1
+
+EVAL:
+  USE_CKPT_CONFIG: True
+  DATA_PARALLEL_TRAINING: True
+
+UniformContextSampler:
+  # dump_audio_waveforms: True
+
+  batch_size: 8
+  num_workers: 8
+
+  num_datapoints_per_scene_eval: 14
+
+  predict_in_logspace: True 
+  log1p_gt: False
+  log_instead_of_log1p_in_logspace: True
+  log_gt: True
+  log_gt_eps: 1.0e-8
+
+  EvalMetrics:
+    types: ["stft_l1_distance", "diff_rt_startFrom60dB", "diff_drr_3ms"]
+
+  encode_each_modality_as_independent_context_entry: True
+  append_modality_type_tag_encoding_to_each_modality_encoding: True
+  modality_type_tag_encoding_size: 8
+
+  MemoryNet:
+    type: "transformer" # "transformer", "pool_context_n_cat_w_query_pose", "gru"
+
+    Transformer:
+      input_size: 1024  
+      hidden_size: 2048 
+      num_encoder_layers: 6 
+      num_decoder_layers: 6
+      nhead: 8 
+      dropout: 0.1
+      activation: 'relu'
+
+  PositionalEnc:
+    type: "sinusoidal"
+    num_freqs_for_sinusoidal: 8 
+    shared_pose_encoder_for_context_n_query: True
+
+  FusionEnc:
+    type: "concatenate"
+
+  FusionDec:
+    type: "concatenate"

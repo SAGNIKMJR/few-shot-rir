@@ -1,0 +1,62 @@
+ENVIRONMENT:
+  MAX_CONTEXT_LENGTH: 20  
+  MAX_QUERY_LENGTH: 50
+
+  LOAD_QUERY_FOR_ARBITRARY_RIRS_FROM_DISK: True
+  LOAD_CONTEXT_FROM_DISK: True
+
+  SEEN_ENV_EVAL_CONTEXT_POSE_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/seenEnv_eval_798datapoints_contextPoseIdxs_maxContextLen200_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_SEEN_ENV_EVAL_QUERY_POSE_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/seenEnv_eval_798datapoints_poseIdxs_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_SEEN_ENV_EVAL_QUERY_POSE_SUBGRAPH_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/seenEnv_eval_798datapoints_subGraphIdxs_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_SEEN_ENV_EVAL_SCENE_NAMES_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/seenEnv_eval_798datapoints_sceneNames.pkl"
+  UNSEEN_ENV_EVAL_CONTEXT_POSE_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/unseenEnv_eval_364datapoints_contextPoseIdxs_maxContextLen200_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_UNSEEN_ENV_EVAL_QUERY_POSE_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/unseenEnv_eval_364datapoints_poseIdxs_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_UNSEEN_ENV_EVAL_QUERY_POSE_SUBGRAPH_IDXS_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/unseenEnv_eval_364datapoints_subGraphIdxs_splitPerSubGraph.pkl"
+  ARBITRARY_RIR_UNSEEN_ENV_EVAL_SCENE_NAMES_PATH: "data/eval_arbitraryRIRQuery_datasets/mp3d/allEnv_14DatapointsPerEnv/test/60_qry/unseenEnv_eval_364datapoints_sceneNames.pkl"
+
+SIMULATOR:
+  SCENE_DATASET: "mp3d" 
+  RENDERED_OBSERVATIONS: "data/scene_observations/" 
+  GRID_SIZE: 1.0 
+  HABITAT_SIM_V0:
+    GPU_DEVICE_ID: 0
+  RGB_SENSOR:
+    WIDTH: 128
+    HEIGHT: 128
+  DEPTH_SENSOR:
+    WIDTH: 128
+    HEIGHT: 128
+    MIN_DEPTH: 0.0
+    MAX_DEPTH: 67.16327 
+    NORMALIZE_DEPTH: True
+  AUDIO:
+    META_DIR: "data/metadata/mp3d" 
+    RIR_DIR: "data/binaural_rirs/mp3d" 
+    RIR_SAMPLING_RATE:  16000 
+
+    HOP_LENGTH: 62 
+    N_FFT: 511 
+    WIN_LENGTH: 248
+
+    SWEEP_AUDIO_DIR: "data/audio_data/sweep_sounds/visual_echoes/"
+    SWEEP_AUDIO_FILENAME: "data_sweep_audio_3ms_sweep.wav"
+
+    VALID_ECHO_POSES_PATH: "data/valid_poses/echoes_only/mp3d_splitPerSubGraph.pkl"
+    VALID_ARBITRARY_RIR_TRAIN_POSES_PATH: "data/valid_poses/arbitrary_rirs/mp3d/splitPerSubGraph/train_08/train.pkl"
+    VALID_ARBITRARY_RIR_SEEN_ENV_EVAL_POSES_PATH: "data/valid_poses/arbitrary_rirs/mp3d/splitPerSubGraph/train_08/seenEnv_eval.pkl"
+    VALID_ARBITRARY_RIR_UNSEEN_ENV_EVAL_POSES_PATH: "data/valid_poses/arbitrary_rirs/mp3d/splitPerSubGraph/unseenEnv_eval.pkl"
+
+  TYPE: "HabitatSimAudioEnabledTrain"
+  ACTION_SPACE_CONFIG: "rir-rendering"
+
+TASK:
+  TYPE: Exploration
+
+  SENSORS: ["BIN_SPECT_MAG_SENSOR", "POSE_SENSOR"]
+
+  BIN_SPECT_MAG_SENSOR:
+    FEATURE_SHAPE: [256, 259, 2] # mp3d (n_fft=511, hop_length=62, win_length=400): [256, 259, 2]; 
+
+  GOAL_SENSOR_UUID: spect_mag
+  MEASUREMENTS: []
+  POSSIBLE_ACTIONS: []

@@ -1,0 +1,66 @@
+BASE_TASK_CONFIG_PATH: "configs/tasks/uniform_context_sampler/train_uniform_context_sampler.yaml"
+SENSORS: ["RGB_SENSOR", "DEPTH_SENSOR"] 
+
+TRAINER_NAME: "uniform_context_sampler"
+
+NUM_PROCESSES: 1
+
+UniformContextSampler:
+  num_epochs: 60000
+
+  batch_size: 24
+  num_workers: 24
+
+  num_datapoints_per_scene_train: 210
+  num_datapoints_per_scene_eval: 14
+
+  lr: 1.0e-4 
+  eps: 1.0e-5 
+
+  predict_in_logspace: True
+  log1p_gt: False
+  log_instead_of_log1p_in_logspace: True
+  log_gt: False
+  log_gt_eps: 1.0e-8
+
+  TrainLosses:
+    types: ["stft_l1_loss"] 
+    weights: [1.0] 
+    fancy_weighted_loss_eps: 1.0e-5
+
+  use_spect_energy_decay_loss: True
+  spectEnergyDecayLoss:
+    type: "l1_loss"
+    weight: 1.0e-2 
+    direct_signal_len_in_ms: 50
+
+  EvalMetrics:
+    types: ["stft_l1_distance"] 
+    type_for_ckpt_dump: "stft_l1_distance"
+
+  encode_each_modality_as_independent_context_entry: True
+  append_modality_type_tag_encoding_to_each_modality_encoding: True
+  modality_type_tag_encoding_size: 8
+
+  MemoryNet:
+    type: "transformer" 
+
+    Transformer:
+      input_size: 1024  
+      hidden_size: 2048 
+      num_encoder_layers: 6 
+      num_decoder_layers: 6 
+      nhead: 8 
+      dropout: 0.1
+      activation: 'relu'
+
+  PositionalEnc:
+    type: "sinusoidal"
+    num_freqs_for_sinusoidal: 8 
+    shared_pose_encoder_for_context_n_query: True
+
+  FusionEnc:
+    type: "concatenate"
+
+  FusionDec:
+    type: "concatenate"
