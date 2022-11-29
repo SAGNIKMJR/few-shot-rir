@@ -20,7 +20,7 @@ UniformContextSampler:
   predict_in_logspace: True 
   log1p_gt: False
   log_instead_of_log1p_in_logspace: True
-  log_gt: True
+  log_gt: False
   log_gt_eps: 1.0e-8
 
   EvalMetrics:
@@ -31,7 +31,7 @@ UniformContextSampler:
   modality_type_tag_encoding_size: 8
 
   MemoryNet:
-    type: "transformer" # "transformer", "pool_context_n_cat_w_query_pose", "gru"
+    type: "transformer"
 
     Transformer:
       input_size: 1024  

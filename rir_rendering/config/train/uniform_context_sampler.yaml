@@ -26,7 +26,6 @@ UniformContextSampler:
   TrainLosses:
     types: ["stft_l1_loss"] 
     weights: [1.0] 
-    fancy_weighted_loss_eps: 1.0e-5
 
   use_spect_energy_decay_loss: True
   spectEnergyDecayLoss:
