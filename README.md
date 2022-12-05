@@ -63,6 +63,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python3 main.py --exp-config rir_rendering/
 Compute eval metric values, like STFT error, RTE and DRRE, using ```scripts/impulse_quality/compute_evalMetrics.ipynb```, and MOSE using ```scripts/impulse_quality/mos/run_mos.py``` and ```scripts/impulse_quality/mos/compute_mose.ipynb```. Additionally, for computing MOS and subsequently MOSE the ```UniformContextSampler.dump_audio_waveforms``` flag in ```rir_rendering/config/test/uniform_context_sampler.yaml``` should be set to ```True``` for dumping the prediced and ground-truth IRs to disk.
 
 
+## Model checkpoints
+Download model checkpoints from this [link](https://tinyurl.com/dphrmz59).    
+
 ## Citation
 ```
 @inproceedings{
