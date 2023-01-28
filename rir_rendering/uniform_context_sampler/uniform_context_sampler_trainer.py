@@ -570,14 +570,18 @@ class UniformContextSamplerTrainer(BaseRLTrainer):
                     use_rand_phase_for_gt=uniform_context_sampler_cfg.use_rand_phase_for_gt,
                 )
 
-            for metric_type in all_metric_types:
-                if metric_type not in eval_metrics:
-                    assert metric_type in eval_metrics_batch
-                    eval_metrics[metric_type] = eval_metrics_batch[metric_type]
-                else:
-                    eval_metrics[metric_type] += eval_metrics_batch[metric_type]
+                for metric_type in all_metric_types:
+                    if metric_type not in eval_metrics:
+                        assert metric_type in eval_metrics_batch
+                        eval_metrics[metric_type] = eval_metrics_batch[metric_type]
+                    else:
+                        eval_metrics[metric_type] += eval_metrics_batch[metric_type]
 
             for metric_type in all_metric_types:
+                writer.add_scalar('{}/{}/median'.format(metric_type, split),
+                                  np.median(eval_metrics[metric_type]),
+                                  0)
+
                 writer.add_scalar('{}/{}/mean'.format(metric_type, split),
                                   np.mean(eval_metrics[metric_type]),
                                   0)
@@ -587,7 +591,7 @@ class UniformContextSamplerTrainer(BaseRLTrainer):
                                   0)
 
                 logger.info(f"{split.upper()} -- {metric_type}: "
-                            f" mean -- {np.mean(eval_metrics[metric_type]):.4f}, std -- {np.std(eval_metrics[metric_type]):.4f}")
+                            f" median -- {np.median(eval_metrics[metric_type]):.4f}, mean -- {np.mean(eval_metrics[metric_type]):.4f}, std -- {np.std(eval_metrics[metric_type]):.4f}")
 
             with open(os.path.join(config.MODEL_DIR, f"{split}_{dataset_sizes[split]}datapoints_metrics.pkl"), "wb") as fo:
                 pickle.dump(eval_metrics, fo, protocol=pickle.HIGHEST_PROTOCOL)
