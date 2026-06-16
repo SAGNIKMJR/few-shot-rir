@@ -71,7 +71,7 @@ Compute eval metric values, like STFT error, RTE and DRRE, using ```scripts/impu
 2. The model converges around 120-140 epochs; the next arxiv version will be updated to reflect that
 
 ## Model checkpoints
-Download model checkpoints from this [link](https://tinyurl.com/dphrmz59).    
+Download model checkpoints from this [link](https://utexas.box.com/s/f075vx5phkwnwqa4ase936b4y9jyk6mo).    
 
 ## Citation
 ```
