@@ -29,7 +29,7 @@ or by parsing ```requirements.txt``` to get the names and versions of individual
 For ```speechmetrics```, install it from this [repo](https://github.com/aliutkus/speechmetrics).
 
 ## Datasets
-Download the Few-shot-RIR-specific datasets from [this link](https://utexas.box.com/s/f075vx5phkwnwqa4ase936b4y9jyk6mo), extract the zip, copy the ```data``` directory and paste it under the project root. The extracted ```data``` directory should have 6 subdirectories
+Download the Few-shot-RIR-specific datasets from [this link](https://utexas.box.com/s/ipqch1puypzaybylr3zmf3eqmrfdi2eg), extract the zip, copy the ```data``` directory and paste it under the project root. The extracted ```data``` directory should have 6 subdirectories
 1. **audio_data**: the sinusoidal sweep audio for computing IRs and anechoic audio for computing
 MOSE    
 2. **compute_mos**: pickle files containing the mapping between different query source-receiver
